@@ -6,7 +6,6 @@ Created on Jan 16, 2013
 
 @author: Christopher Welborn
 '''
-from __future__ import print_function
 # file related imports
 import sys
 import os.path
