@@ -112,8 +112,7 @@ class CmdLine():
             return 1
 
         cmd = matches[0]
-        newfile = cmd.to_scriptfile(filepath=targetfile, overwrite=overwrite)
-        if newfile:
+        if newfile := cmd.to_scriptfile(filepath=targetfile, overwrite=overwrite):
             print('Script was generated: {}'.format(newfile))
             return 0
         print('\nUnable to generate script: {}'.format(newfile))
@@ -137,8 +136,7 @@ class CmdLine():
         """.format(ver=settings.versionstr))
 
     def printhelp(self):
-        aliasfile = settings.get("aliasfile")
-        if aliasfile == "":
+        if (aliasfile := settings.get("aliasfile")) == "":
             aliasfile = "(Not selected yet)"
         print("""
   Current file:    {aliasfile}
@@ -203,8 +201,7 @@ class CmdLine():
     def printsearch(self, aliasname):
         """ Searches aliases for aliasname (regex), and prints results """
 
-        matches = self.searchalias(aliasname)
-        if matches:
+        if matches := self.searchalias(aliasname):
             usedivider = (len(matches) > 1)
             lastmatch = matches[-1]
             for cmdinfo in matches:
@@ -318,10 +315,9 @@ class CmdLine():
 
     def printexports(self):
         """ Prints exports only """
-        exports = [
+        if exports := [
             f.name for f in self.commands if f.exported.lower() == 'yes'
-        ]
-        if exports:
+        ]:
             print('\n'.join(exports))
             return 0
         else:

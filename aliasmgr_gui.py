@@ -724,8 +724,7 @@ class winMain():
             self.btnSave_clicked_cb(widget)
 
     def btnEdit_clicked_cb(self, widget):
-        sexe = settings.get("editor")
-        if sexe == "":
+        if (sexe := settings.get("editor")) == "":
             dlg.msgbox("No editor has been set, please select a valid text/" +
                        "shell script editor.")
             sexe = self.select_editor()
@@ -972,9 +971,8 @@ class winMain():
         # Adjust scrollbars
         adj = scrollObject.get_vadjustment()
 
-        itotal_len = len(listStore)
         # No entries? something is horribly wrong.
-        if itotal_len == 0:
+        if (itotal_len := len(listStore)) == 0:
             # division by zero error, because no items are loaded
             return False
         # Divide maximum value by total number of entries to get each entry
@@ -1283,8 +1281,7 @@ class winMain():
             return False
 
         for itm in self.lst_data:
-            sdataname = itm.name
-            if sdataname == sname:
+            if (sdataname := itm.name) == sname:
                 # Found item by name, return the data
                 return itm
 

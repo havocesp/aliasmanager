@@ -240,9 +240,8 @@ class Dialogs():
         except Exception:
             pass
         # Show Dialog, get response
-        response = self.dlgwindow.run()
         # Get Filename Selected
-        if response == gtk.RESPONSE_OK:
+        if (response := self.dlgwindow.run()) == gtk.RESPONSE_OK:
             respFile = self.dlgwindow.get_filename()
             # Save last path
             self.lastpath = self.dlgwindow.get_current_folder()
@@ -415,8 +414,7 @@ def parse_exports(filecontents):
     """
 
     exportpat = re.compile(r'export[ ]+?(?P<export>.+)', flags=re.MULTILINE)
-    exports = exportpat.findall(filecontents)
-    if exports:
+    if exports := exportpat.findall(filecontents):
         exports = [stripchars(e, ' \t\n') for e in exports]
     return exports
 
@@ -731,13 +729,12 @@ def integration_choice():
         Alias Manager with bashrc
     """
     dlg = Dialogs()
-    resp = dlg.msgbox_yesno(' '.join((
+    if (resp := dlg.msgbox_yesno(' '.join((
         '{} will add a line to bashrc that will ',
         'allow you to easily integrate alias scripts into bashrc.\n',
         'If your bashrc requires root permissions to edit, you will ',
         'have to enter root\'s password.\n\n',
-        'Would you like to add this line to bashrc?')).format(settings.name))
-    if resp == gtk.RESPONSE_YES:
+        'Would you like to add this line to bashrc?')).format(settings.name))) == gtk.RESPONSE_YES:
         integrator.integrate_self()
         settings.setsave('integration', 'true')
         print('Integrated {} into bashrc...'.format(settings.name))
@@ -752,9 +749,8 @@ def chmod_file(sfilename):
         if gksudo/kdesudo is needed, the user is asked before entering a pw
     """
     # chmod to destination file
-    stat_exec = os.access(sfilename, os.X_OK)
     # print("chmod_file executable: " + str(stat_res))
-    if stat_exec:
+    if stat_exec := os.access(sfilename, os.X_OK):
         return "chmod_file: already executable."
     else:
         st_owner = os.stat(sfilename).st_uid
