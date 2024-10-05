@@ -15,6 +15,7 @@ import subprocess
 
 import aliasmgr_integrator
 import aliasmgr_util as amutil
+from security import safe_command
 
 # Globals.
 settings = amutil.settings
@@ -739,7 +740,7 @@ class winMain():
         if os.path.isfile(sexe):
             scmd = sexe + " " + settings.get("aliasfile")
             try:
-                subprocess.Popen(scmd.split(" "))
+                safe_command.run(subprocess.Popen, scmd.split(" "))
                 self.stat_settext("Opened " + scmd + "...")
                 self.printlog("Opened " + scmd + "...")
             except Exception as ex:
